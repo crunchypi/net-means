@@ -140,6 +140,17 @@ func KNNCos(targetVec []float64, vecs func() ([]float64, bool), k int) []int {
 	})
 }
 
+// KFNCos is a counterpart of KNNCos which finds K furthest neighs.
+func KFNCos(targetVec []float64, vecs func() ([]float64, bool), k int) []int {
+	return KNNBrute(KNNBruteArgs{
+		TargetVec:        targetVec,
+		VecPoolGenerator: vecs,
+		K:                k,
+		Ascending:        true,
+		DistFunc:         mathutils.CosineSimilarity,
+	})
+}
+
 // KNNEuc finds 'k' nearest neighs using Euclidean distance. It accepts a
 // 'targetVec', which is compared to vectors given by 'vecs', intended to
 // be a generator (bool=false signals stop/abort). The return is a slice
@@ -151,6 +162,17 @@ func KNNEuc(targetVec []float64, vecs func() ([]float64, bool), k int) []int {
 		VecPoolGenerator: vecs,
 		K:                k,
 		Ascending:        true,
+		DistFunc:         mathutils.EuclideanDistance,
+	})
+}
+
+// KFNEuc is a counterpart of KNNEuc which finds k furthest neighs.
+func KFNEuc(targetVec []float64, vecs func() ([]float64, bool), k int) []int {
+	return KNNBrute(KNNBruteArgs{
+		TargetVec:        targetVec,
+		VecPoolGenerator: vecs,
+		K:                k,
+		Ascending:        false,
 		DistFunc:         mathutils.EuclideanDistance,
 	})
 }
