@@ -23,7 +23,7 @@ What:
 
 A few interfaces that can are layered and are meant to be descriptive of:
 - 'Payloads', or the smallest type of data (holding []byte data, etc).
-- 'DataContainers', can be centroids in a kmeans context. Keeps payloads.
+- 'Centroid', in a kmeans context. Keeps payloads.
 
 
 */
@@ -77,11 +77,13 @@ type PayloadDistributer interface {
 
 // KNNSearcher does a KNN payload lookup using vectors.
 type KNNSearcher interface {
-	KNNLookupCos(vec []float64, k int, drain bool) []PayloadContainer
+	KNNLookup(vec []float64, k int, drain bool) []PayloadContainer
 }
 
-// DataContainer is a composite interface which is intended to keep/manage payloads.
-type DataContainer interface {
+// Centroid is a composite interface which is intended to keep/manage payloads
+// as a centroid in the context of this repo. It breaks the naming convention
+// for clarity reasons.
+type Centroid interface {
 	PayloadReceiver
 	PayloadDrainer
 	PayloadExpirer
